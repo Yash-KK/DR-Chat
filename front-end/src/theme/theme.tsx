@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
   interface Theme {
@@ -29,7 +29,7 @@ const createMuiTheme = () => {
       },
     },
   });
-  return theme;
+  return responsiveFontSizes(theme);
 };
 
 export default createMuiTheme;
