@@ -12,6 +12,23 @@ const PrimaryDrawer = () => {
     setOpen(isAboveSm);
   }, [isAboveSm]);
 
+  const openedMixin = () => ({
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: "hidden",
+  });
+
+  const closedMixin = () => ({
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: "hidden",
+    width: theme.primaryDrawer.closed,
+  });
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -19,11 +36,19 @@ const PrimaryDrawer = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const Drawer = styled(MuiDrawer)(({ theme }) => ({
-    "& .MuiDrawer-paper": {
-      // backgroundColor: '#f0f0f0',
-      width: open ? theme.primaryDrawer.width : theme.primaryDrawer.closed,
-    },
+  const Drawer = styled(MuiDrawer, {})(({ theme, open }) => ({
+    width: theme.primaryDrawer.width,
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
+    ...(open & {
+      ...openedMixin(),
+      "& .MuiDrawer-paper": openedMixin(),
+    }),
+    ...(!open && {
+      ...closedMixin(),
+      "& .MuiDrawer-paper": closedMixin(),
+    })
+   
   }));
   return (
     <Drawer
