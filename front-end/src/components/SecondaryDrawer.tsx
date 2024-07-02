@@ -1,11 +1,14 @@
-import axios from "axios";
-import { BASE_URL } from "/home/yash/Desktop/Code/Django/drChat/front-end/config.ts";
+import { BASE_URL } from "../../config";
 
+import useAxioxWithInterceptor from "../helpers/jwtInteceptor";
 import { Box, useTheme } from "@mui/material";
 
 const SecondaryDrawer = () => {
   const theme = useTheme();
-  axios.get(`${BASE_URL}/server/select/`).then((response)=>{
+  const jwtAxios = useAxioxWithInterceptor();
+
+  
+  jwtAxios.get(`${BASE_URL}/server/select/`).then((response)=>{
     console.log("Response", response);
   })
   return (
