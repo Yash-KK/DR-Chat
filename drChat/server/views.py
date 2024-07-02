@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import exceptions
 # MODELS
 from .models import (
@@ -14,9 +15,9 @@ from .serializer import (
 # Create your views here.
 
 class ServerViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
     
     queryset = Server.objects.all()
-
     def list(self, request):
         category = self.request.query_params.get('category')
         by_user = self.request.query_params.get('by_user') == 'true'
