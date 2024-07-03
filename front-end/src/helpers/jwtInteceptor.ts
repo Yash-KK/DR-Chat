@@ -15,9 +15,9 @@ const useAxioxWithInterceptor = (): AxiosInstance => {
             return response;
         },
 
-        async (error) =>{
-            const originalRequest = error.config;
-            if(error.response.status === 403){    // UnAuthorized
+        async (error) => {
+            // const originalRequest = error.config;
+            if (error.response.status === 403) {    // UnAuthorized
                 const goRoot = navigate("/testing");
                 return goRoot
             }
