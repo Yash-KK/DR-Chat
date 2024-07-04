@@ -35,7 +35,10 @@ const PopularChannels: React.FC<PopularChannelsProps> = ({ open }) => {
     fetchData();
   }, []);
 
-  useEffect(() => {}, [dataCRUD]);
+  useEffect(() => {
+    console.log("dataCRUD", dataCRUD);
+
+  }, [dataCRUD]);
   return (
     <>
       <Box
