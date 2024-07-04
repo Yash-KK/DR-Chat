@@ -1,16 +1,12 @@
-import { BASE_URL } from "../../config";
-
-import useAxioxWithInterceptor from "../helpers/jwtInteceptor";
 import { Box, useTheme } from "@mui/material";
+import React, { ReactNode } from "react";
 
-const SecondaryDrawer = () => {
+type SecondaryDrawerProps = {
+  children: ReactNode;
+};
+
+const SecondaryDrawer: React.FC<SecondaryDrawerProps> = ({ children }) => {
   const theme = useTheme();
-  const jwtAxios = useAxioxWithInterceptor();
-
-  
-  jwtAxios.get(`${BASE_URL}/server/select/`).then((response)=>{
-    console.log("Response", response);
-  })
   return (
     <Box
       sx={{
@@ -22,9 +18,7 @@ const SecondaryDrawer = () => {
         overflow: "auto",
       }}
     >
-     {Array.from({ length: 50 }, (_, index) => (
-        <div key={index + 1}>{index + 1}</div>
-      ))}
+      {children}
     </Box>
   );
 };
