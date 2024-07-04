@@ -15,7 +15,7 @@ from .serializer import (
 # Create your views here.
 
 class ServerViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     
     queryset = Server.objects.all()
     def list(self, request):
