@@ -1,8 +1,20 @@
 import { Box, styled, useMediaQuery, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import DrawerToggle from "./DrawerToggle";
 import MuiDrawer from "@mui/material/Drawer";
-const PrimaryDrawer = () => {
+import React from "react";
+
+type Props = {
+  children: ReactNode;
+};
+
+type ChildProps = {
+  open: boolean;
+};
+
+type ChildElement = React.ReactElement<ChildProps>;
+
+const PrimaryDrawer: React.FC<Props> = ({ children }) => {
   const theme = useTheme();
 
   /* This hides the Drawer is the width is less than 600px */
@@ -36,19 +48,22 @@ const PrimaryDrawer = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const Drawer = styled(MuiDrawer, {})(({ theme, open }) => ({
+  const Drawer = styled(
+    MuiDrawer,
+    {}
+  )(({ theme, open }) => ({
     width: theme.primaryDrawer.width,
     whiteSpace: "nowrap",
     boxSizing: "border-box",
-    ...(open & {
-      ...openedMixin(),
-      "& .MuiDrawer-paper": openedMixin(),
-    }),
+    ...(open &
+      {
+        ...openedMixin(),
+        "& .MuiDrawer-paper": openedMixin(),
+      }),
     ...(!open && {
       ...closedMixin(),
       "& .MuiDrawer-paper": closedMixin(),
-    })
-   
+    }),
   }));
   return (
     <Drawer
@@ -77,10 +92,12 @@ const PrimaryDrawer = () => {
             handleDrawerOpen={handleDrawerOpen}
             handleDrawerClose={handleDrawerClose}
           />
-          {Array.from({ length: 50 }, (_, index) => (
-            <div key={index + 1}>{index + 1}</div>
-          ))}
         </Box>
+        {React.Children.map(children, (child) => {
+          return React.isValidElement(child)
+            ? React.cloneElement(child as ChildElement, { open })
+            : child;
+        })}
       </Box>
     </Drawer>
   );
