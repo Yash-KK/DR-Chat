@@ -33,6 +33,13 @@ declare module "@mui/material/styles" {
 
 const createMuiTheme = () => {
   const theme = createTheme({
+    typography: {
+      body1: {
+        fontWeight: 500,
+        letterSpacing: "-0.5px",
+      },
+    },
+
     primaryAppBar: {
       height: 50,
     },
