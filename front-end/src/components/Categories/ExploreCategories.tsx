@@ -7,13 +7,12 @@ import {
   Box,
   Typography,
   ListItemAvatar,
-  Avatar,
   useTheme,
 } from "@mui/material";
 
-import useCrud from "../hooks/useCrud";
+import useCrud from "../../hooks/useCrud";
 import { useEffect } from "react";
-import { MEDIA_URL } from "../../config";
+import { MEDIA_URL } from "../../../config";
 import { Link } from "react-router-dom";
 
 interface Category {
@@ -25,16 +24,12 @@ interface Category {
 const ExploreCategories = () => {
   const theme = useTheme();
 
-  const { dataCRUD, error, isLoading, fetchData } = useCrud<Category>(
-    [],
-    "/server/category/"
-  );
+  const { dataCRUD, fetchData } = useCrud<Category>([], "/server/category/");
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    console.log("dataCRUD", dataCRUD);
   }, [dataCRUD]);
   return (
     <>

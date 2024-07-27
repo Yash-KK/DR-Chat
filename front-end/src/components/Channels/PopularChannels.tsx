@@ -10,9 +10,9 @@ import {
   Avatar,
 } from "@mui/material";
 
-import useCrud from "../hooks/useCrud";
+import useCrud from "../../hooks/useCrud";
 import { useEffect } from "react";
-import { MEDIA_URL } from "../../config";
+import { MEDIA_URL } from "../../../config";
 import { Link } from "react-router-dom";
 
 type PopularChannelsProps = {
@@ -26,10 +26,7 @@ interface Server {
   icon: string;
 }
 const PopularChannels: React.FC<PopularChannelsProps> = ({ open }) => {
-  const { dataCRUD, error, isLoading, fetchData } = useCrud<Server>(
-    [],
-    "/server/select/"
-  );
+  const { dataCRUD, fetchData } = useCrud<Server>([], "/server/select/");
 
   useEffect(() => {
     fetchData();
