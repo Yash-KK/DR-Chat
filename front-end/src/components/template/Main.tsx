@@ -1,6 +1,11 @@
 import { Box, useTheme } from "@mui/material";
+import { ReactNode } from "react";
 
-const Main = () => {
+type Props = {
+  children: ReactNode;
+};
+
+const Main: React.FC<Props> = ({ children }) => {
   const theme = useTheme();
   return (
     <Box
@@ -11,9 +16,7 @@ const Main = () => {
         overflow: "hidden",
       }}
     >
-      {Array.from({ length: 50 }, (_, index) => (
-        <div key={index + 1}>{index + 1}</div>
-      ))}
+      {children}
     </Box>
   );
 };

@@ -7,6 +7,7 @@ import Main from "../components/template/Main";
 import PopularChannels from "../components/Channels/PopularChannels";
 import ExploreCategories from "../components/Categories/ExploreCategories";
 import ExploreServers from "../components/Servers/ExploreServers";
+
 const Home = () => {
   return (
     <Box sx={{ display: "flex" }}>

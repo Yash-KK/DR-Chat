@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import Home from "./pages/Home";
+import Explore from "./pages/Explore";
+
 import createMuiTheme from "./theme/theme";
 
 const router = createBrowserRouter([
@@ -8,6 +10,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <Home />,
   },
+  {
+    path: "/explore/:categoryName",
+    element: <Explore />
+  }
 ]);
 
 function App() {
