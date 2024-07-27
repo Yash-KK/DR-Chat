@@ -31,6 +31,7 @@ class Category(TimeStamp):
     icon = models.FileField(upload_to=category_icon_upload_to, blank=True, null=True)
 
     def save(self, *args, **kwargs):
+        self.name = self.name.lower()
         if self.id:
             existing = get_object_or_404(Category, id=self.id)
             if existing.icon != self.icon:
