@@ -8,6 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import React, { useEffect, useState } from "react";
 import ExploreCategories from "../Categories/ExploreCategories";
+import AccountButton from "../Toggle/AccountButton";
 
 const PrimaryAppBar: React.FC = () => {
   const theme = useTheme();
@@ -76,6 +77,8 @@ const PrimaryAppBar: React.FC = () => {
             DRCHAT
           </Typography>
         </Link>
+        <Box sx={{ flexGrow: 1 }} />
+        <AccountButton />
       </Toolbar>
     </AppBar>
   );

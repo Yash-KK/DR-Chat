@@ -17,7 +17,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const theme = createMuiTheme();
+  const theme = createMuiTheme("light");
   return (
     <ThemeProvider theme={theme}>
       <RouterProvider router={router} />;

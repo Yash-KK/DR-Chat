@@ -40,7 +40,6 @@ const ExploreServers = () => {
     fetchData();
   }, [categoryName]);
 
-  console.log("DataCRUD", dataCRUD);
   return (
     <>
       <Container sx={{ ml: 0 }} maxWidth="lg">

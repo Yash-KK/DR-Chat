@@ -31,7 +31,7 @@ declare module "@mui/material/styles" {
   }
 }
 
-const createMuiTheme = () => {
+const createMuiTheme = (mode: "light" | "dark") => {
   const theme = createTheme({
     typography: {
       body1: {
@@ -51,7 +51,9 @@ const createMuiTheme = () => {
     secondaryDrawer: {
       width: 240,
     },
-
+    palette:{
+      mode,
+    },
     components: {
       MuiAppBar: {
         defaultProps: {
