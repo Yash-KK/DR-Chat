@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import React, { useEffect, useState } from "react";
+import ExploreCategories from "../Categories/ExploreCategories";
 
 const PrimaryAppBar: React.FC = () => {
   const theme = useTheme();
@@ -24,6 +25,17 @@ const PrimaryAppBar: React.FC = () => {
     (newOpen: boolean) => (event: React.MouseEvent<HTMLButtonElement>) => {
       setSideMenu(newOpen);
     };
+
+  const list = () => (
+    <Box
+      sx={{ paddingTop: `${theme.primaryAppBar.height}px`, minWidth: 200 }}
+      onClick={() => toggleDrawer(false)}
+      onKeyDown={() => toggleDrawer(false)}
+    >
+      <ExploreCategories />
+    </Box>
+  );
+
   return (
     <AppBar
       sx={{
@@ -52,9 +64,7 @@ const PrimaryAppBar: React.FC = () => {
         </Box>
 
         <Drawer open={sideMenu} onClose={toggleDrawer(false)}>
-          {Array.from({ length: 50 }, (_, index) => (
-            <div key={index + 1}>{index + 1}</div>
-          ))}
+          {list()}
         </Drawer>
         <Link href="/" underline="none" color="inherit">
           <Typography
