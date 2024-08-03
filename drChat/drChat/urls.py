@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from webchat.consumer import MyConsumer
 
 
 urlpatterns = [
@@ -25,6 +26,11 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('', include('server.urls'))
 ]
+
+weh_socket_url_patterns = [
+    path("ws/test", MyConsumer.as_asgi())
+    ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
