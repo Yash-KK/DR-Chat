@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "server",
     "corsheaders",
     "rest_framework",
-    
 ]
 
 MIDDLEWARE = [
@@ -58,7 +57,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
 
 
 ROOT_URLCONF = "drChat.urls"
@@ -150,3 +148,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
+
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
