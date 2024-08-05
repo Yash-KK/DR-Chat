@@ -31,7 +31,11 @@ class ServerViewSet(viewsets.ViewSet):
         server_id = self.request.query_params.get("server_id")
         qty = self.request.query_params.get("qty")
 
-        if (by_user or server_id) and not request.user.is_authenticated:
+
+        # if (by_user or server_id) and not request.user.is_authenticated:
+        #     raise exceptions.AuthenticationFailed()
+
+        if (by_user) and not request.user.is_authenticated:
             raise exceptions.AuthenticationFailed()
 
         if category:

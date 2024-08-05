@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <Explore />,
   },
   {
-    path: "/server",
+    path: "/server/:serverId/:channelId?",
     element: <Server />,
   },
 ]);
