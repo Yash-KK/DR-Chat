@@ -1,57 +1,51 @@
-import { useState } from "react";
-import useWebSocket from "react-use-websocket";
-
-const socketUrl = "ws://127.0.0.1:8000/ws/test";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import PrimaryAppBar from "../components/template/PrimaryAppBar";
+import PrimaryDrawer from "../components/PrimaryDrawer";
+import SecondaryDrawer from "../components/template/SecondaryDrawer";
+import Main from "../components/template/Main";
+import MessageInterface from "../components/MessageInterface";
+import ServerChannel from "../components/Servers/ServerChannels";
+import UserServers from "../components/Servers/UserServers";
+import { useNavigate, useParams } from "react-router-dom";
+import useCrud from "../hooks/useCrud";
+import { useEffect } from "react";
+import { ServerType } from "../@types/server";
 
 const Server = () => {
-  const [newMessage, setNewMessage] = useState<string[]>([]);
+  const navigate = useNavigate();
+  const { serverId, channelId } = useParams();
 
-  const [message, setMessage] = useState("");
-  const { sendJsonMessage } = useWebSocket(socketUrl, {
-    onOpen: () => {
-      console.log("Connected!");
-    },
-    onClose: () => {
-      console.log("Closed!");
-    },
-    onError: () => {
-      console.log("Error!");
-    },
-    // message received from the consumer
-    onMessage: (msg) => {
-      const data = JSON.parse(msg.data);
-      setNewMessage((prev_msg) => [...prev_msg, data.new_message]);
-    },
-  });
+  const { dataCRUD, error, isLoading, fetchData } = useCrud<ServerType>(
+    [],
+    `/server/select/?server_id=${serverId}`
+  );
+
+  console.log("error: ", error);
+  if (error !== null && error?.message === "400") {
+    navigate("/");
+    return null;
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
 
   return (
-    <div>
-      {newMessage.map((msg, index) => {
-        return (
-          <div key={index}>
-            <p>{msg}</p>
-          </div>
-        );
-      })}
-      <form>
-        <label>
-          Enter Message:
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </label>
-      </form>
-      <button
-        onClick={() => {
-          sendJsonMessage({ type: "message", message });
-        }}
-      >
-        Send Message
-      </button>
-    </div>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <PrimaryAppBar />
+      <PrimaryDrawer>
+        <UserServers open={false} data={dataCRUD}></UserServers>
+      </PrimaryDrawer>
+      <SecondaryDrawer>
+        <ServerChannel></ServerChannel>
+      </SecondaryDrawer>
+      <Main>
+        <MessageInterface />
+      </Main>
+    </Box>
   );
 };
-
 export default Server;
