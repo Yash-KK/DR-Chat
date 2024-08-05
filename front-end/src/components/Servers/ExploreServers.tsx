@@ -115,7 +115,10 @@ const ExploreServers = () => {
                         : "https://source.unsplash.com/random/"
                     }
                     alt="random"
-                    sx={{ display: { xs: "none", sm: "block" } }}
+                    sx={{ display: { xs: "none", sm: "block" },
+                    height: "155px",
+                    width: "276px",
+                    objectFit: "cover"  }}
                   ></CardMedia>
                   <CardContent
                     sx={{
