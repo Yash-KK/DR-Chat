@@ -28,7 +28,7 @@ urlpatterns = [
 ]
 
 weh_socket_url_patterns = [
-    path("ws/test", MyConsumer.as_asgi())
+    path("ws/<str:serverId>/<str:channelId>", MyConsumer.as_asgi())
     ]
 
 if settings.DEBUG:
