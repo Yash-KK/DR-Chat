@@ -2,18 +2,16 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Box,
   Typography,
-  ListItemAvatar,
   useTheme,
 } from "@mui/material";
 
 import useCrud from "../../hooks/useCrud";
 import { useEffect } from "react";
-import { MEDIA_URL } from "../../../config";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { ServerType } from "../../@types/server";
 
 interface Category {
   id: number;
@@ -21,9 +19,15 @@ interface Category {
   description: string;
   icon: string;
 }
-const ServerChannels = () => {
-  const theme = useTheme();
 
+interface ServerChannelsProps {
+  data: ServerType[];
+}
+const ServerChannels: React.FC<ServerChannelsProps> = ({ data }) => {
+  const theme = useTheme();
+  const { serverId } = useParams();
+
+  const serverName = data?.[0]?.name ?? "Server";
   const { dataCRUD, fetchData } = useCrud<Category>([], "/server/category/");
   useEffect(() => {
     fetchData();
@@ -44,52 +48,48 @@ const ServerChannels = () => {
           backgroundColor: theme.palette.background.default,
         }}
       >
-        Explore
+        <Typography
+          variant="body1"
+          style={{
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {serverName}
+        </Typography>
       </Box>
 
       <List sx={{ py: 0 }}>
-        {dataCRUD.map((item) => (
-          <ListItem
-            disablePadding
-            key={item.id}
-            sx={{ display: "block" }}
-            dense={true}
-          >
-            <Link
-              to={`/explore/${item.name}`}
-              style={{ textDecoration: "none", color: "inherit" }}
+        {data.flatMap((obj) =>
+          obj.channel_server.map((item) => (
+            <ListItem
+              disablePadding
+              key={item.id}
+              sx={{ display: "block" }}
+              dense={true}
             >
-              <ListItemButton sx={{ minHeight: 48 }}>
-                <ListItemIcon sx={{ minWidth: 0, justifyContent: "center" }}>
-                  <ListItemAvatar sx={{ minWidth: "0px" }}>
-                    <img
-                      alt="Category Icon"
-                      src={`${MEDIA_URL}${item.icon}`}
-                      style={{
-                        width: "25px",
-                        height: "25px",
-                        display: "block",
-                        margin: "auto",
-                      }}
-                    />
-                  </ListItemAvatar>
-                </ListItemIcon>
-
-                <ListItemText
-                  primary={
-                    <Typography
-                      variant="body1"
-                      textAlign="start"
-                      paddingLeft={1}
-                    >
-                      {item.name}
-                    </Typography>
-                  }
-                />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
+              <Link
+                to={`/server/${serverId}/${item.id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <ListItemButton sx={{ minHeight: 48 }}>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        variant="body1"
+                        textAlign="start"
+                        paddingLeft={1}
+                      >
+                        {item.name}
+                      </Typography>
+                    }
+                  />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ))
+        )}
       </List>
     </>
   );

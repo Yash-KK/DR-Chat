@@ -21,7 +21,6 @@ const Server = () => {
     `/server/select/?server_id=${serverId}`
   );
 
-  console.log("error: ", error);
   if (error !== null && error?.message === "400") {
     navigate("/");
     return null;
@@ -31,7 +30,23 @@ const Server = () => {
     fetchData();
   }, []);
 
+  const isChannel = () => {
+    if (!channelId) {
+      return true;
+    }
 
+    return dataCRUD.some((server) =>
+      server.channel_server.some(
+        (channel) => channel.id === parseInt(channelId)
+      )
+    );
+  };
+
+  useEffect(() => {
+    if (!isChannel()) {
+      navigate(`/server/${serverId}`);
+    }
+  }, [isChannel, channelId]);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -40,7 +55,7 @@ const Server = () => {
         <UserServers open={false} data={dataCRUD}></UserServers>
       </PrimaryDrawer>
       <SecondaryDrawer>
-        <ServerChannel></ServerChannel>
+        <ServerChannel data={dataCRUD}></ServerChannel>
       </SecondaryDrawer>
       <Main>
         <MessageInterface />
