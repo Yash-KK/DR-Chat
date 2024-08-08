@@ -58,7 +58,7 @@ const Server = () => {
         <ServerChannel data={dataCRUD}></ServerChannel>
       </SecondaryDrawer>
       <Main>
-        <MessageInterface />
+        <MessageInterface data={dataCRUD} />
       </Main>
     </Box>
   );
