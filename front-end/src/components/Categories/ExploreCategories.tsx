@@ -29,8 +29,7 @@ const ExploreCategories = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-  }, [dataCRUD]);
+  useEffect(() => {}, [dataCRUD]);
   return (
     <>
       <Box
@@ -71,6 +70,10 @@ const ExploreCategories = () => {
                         height: "25px",
                         display: "block",
                         margin: "auto",
+                        filter:
+                          theme.palette.mode === "dark"
+                            ? "invert(1) contrast(1.2)"
+                            : "none",
                       }}
                     />
                   </ListItemAvatar>
