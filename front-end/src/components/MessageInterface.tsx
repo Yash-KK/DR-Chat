@@ -4,6 +4,7 @@ import useWebSocket from "react-use-websocket";
 import useCrud from "../hooks/useCrud";
 import { ServerType } from "../@types/server";
 import { Box, Typography } from "@mui/material";
+import MessageInterfaceChannels from "./MessageInterfaceChannels";
 
 interface ServerChannelProps {
   data: ServerType[];
@@ -53,6 +54,7 @@ const MessageInterface: React.FC<ServerChannelProps> = ({ data }) => {
 
   return (
     <>
+      <MessageInterfaceChannels data={data} />
       {channelId == undefined ? (
         <Box
           sx={{
