@@ -10,9 +10,17 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import MessageInterfaceChannels from "./MessageInterfaceChannels";
+
+interface SendMessageData {
+  type: string;
+  message: string;
+  [key: string]: any;
+}
 
 interface ServerChannelProps {
   data: ServerType[];
@@ -24,6 +32,7 @@ interface Message {
 }
 
 const MessageInterface: React.FC<ServerChannelProps> = ({ data }) => {
+  const theme = useTheme();
   const [newMessage, setNewMessage] = useState<Message[]>([]);
   const { serverId, channelId } = useParams();
   const serverName = data?.[0]?.name ?? "Server";
@@ -57,9 +66,26 @@ const MessageInterface: React.FC<ServerChannelProps> = ({ data }) => {
     onMessage: (msg) => {
       const data = JSON.parse(msg.data);
       setNewMessage((prev_msg) => [...prev_msg, data.new_message]);
+      setMessage("");
     },
   });
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendJsonMessage({
+        type: "message",
+        message,
+      } as SendMessageData);
+    }
+  };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendJsonMessage({
+      type: "message",
+      message,
+    } as SendMessageData);
+  };
   return (
     <>
       <MessageInterfaceChannels data={data} />
@@ -114,26 +140,24 @@ const MessageInterface: React.FC<ServerChannelProps> = ({ data }) => {
                         </Typography>
                       }
                       secondary={
-                        <Box>
-                          <Typography
-                            variant="body1"
-                            style={{
-                              overflow: "visible",
-                              whiteSpace: "normal",
-                              textOverflow: "clip",
-                            }}
-                            sx={{
-                              display: "inline",
-                              lineHeight: 1.2,
-                              fontWeight: 400,
-                              letterSpacing: "-0.2px",
-                            }}
-                            component="span"
-                            color="text.primary"
-                          >
-                            {msg.content}
-                          </Typography>
-                        </Box>
+                        <Typography
+                          variant="body1"
+                          style={{
+                            overflow: "visible",
+                            whiteSpace: "normal",
+                            textOverflow: "clip",
+                          }}
+                          sx={{
+                            display: "inline",
+                            lineHeight: 1.2,
+                            fontWeight: 400,
+                            letterSpacing: "-0.2px",
+                          }}
+                          component="span"
+                          color="text.primary"
+                        >
+                          {msg.content}
+                        </Typography>
                       }
                     />
                   </ListItem>
@@ -141,33 +165,31 @@ const MessageInterface: React.FC<ServerChannelProps> = ({ data }) => {
               })}
             </List>
           </Box>
-          {/* <div>
-            {newMessage.map((msg: Message, index: number) => {
-              return (
-                <div key={index}>
-                  <p>{msg.sender}</p>
-                  <p>{msg.content}</p>
-                </div>
-              );
-            })}
-            <form>
-              <label>
-                Enter Message:
-                <input
-                  type="text"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-              </label>
-            </form>
-            <button
-              onClick={() => {
-                sendJsonMessage({ type: "message", message });
+          <Box sx={{ position: "sticky", bottom: 0, width: "100%" }}>
+            <form
+              onSubmit={handleSubmit}
+              style={{
+                bottom: 0,
+                right: 0,
+                padding: "1rem",
+                backgroundColor: theme.palette.background.default,
+                zIndex: 1,
               }}
             >
-              Send Message
-            </button>
-          </div> */}
+              <Box sx={{ display: "flex" }}>
+                <TextField
+                  fullWidth
+                  multiline
+                  value={message}
+                  minRows={1}
+                  maxRows={4}
+                  onKeyDown={handleKeyDown}
+                  onChange={(e) => setMessage(e.target.value)}
+                  sx={{ flexGrow: 1 }}
+                />
+              </Box>
+            </form>
+          </Box>
         </>
       )}
     </>
