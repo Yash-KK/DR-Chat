@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Server from "./pages/Server";
 import createMuiTheme from "./theme/theme";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     path: "/server/:serverId/:channelId?",
     element: <Server />,
   },
+  {
+    path: "/login",
+    element: <Login />
+  }
 ]);
 
 function App() {
