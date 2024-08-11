@@ -5,7 +5,7 @@ import Explore from "./pages/Explore";
 import Server from "./pages/Server";
 import createMuiTheme from "./theme/theme";
 import Login from "./pages/Login";
-
+import AuthServiceProvider from "./components/context/AuthContext";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,16 +21,18 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />
-  }
+    element: <Login />,
+  },
 ]);
 
 function App() {
   const theme = createMuiTheme("dark");
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />;
-    </ThemeProvider>
+    <AuthServiceProvider>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />;
+      </ThemeProvider>
+    </AuthServiceProvider>
   );
 }
 
