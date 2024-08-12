@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Route, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
@@ -6,6 +6,8 @@ import Server from "./pages/Server";
 import createMuiTheme from "./theme/theme";
 import Login from "./pages/Login";
 import AuthServiceProvider from "./components/context/AuthContext";
+import ProtectedRoute from "./hooks/ProtectedRoute";
+import TestLogin from "./pages/TestLogin";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/testlogin",
+    element: (
+      <ProtectedRoute>
+        <TestLogin />
+      </ProtectedRoute>
+    ),
   },
 ]);
 
