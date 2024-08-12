@@ -1,4 +1,4 @@
-import { createBrowserRouter, Route, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
