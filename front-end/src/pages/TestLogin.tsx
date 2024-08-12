@@ -1,9 +1,15 @@
 import { useAuthServiceContext } from "../components/context/AuthContext";
 
 const TestLogin = () => {
-  const { isLoggedIn } = useAuthServiceContext();
-    console.log("isLoggedIn", isLoggedIn)
-  return <>{isLoggedIn.toString()}</>;
+  const { isLoggedIn, logout } = useAuthServiceContext();
+  return (
+    <>
+      <div>{isLoggedIn.toString()}</div>
+      <div>
+        <button onClick={logout}>Logout</button>
+      </div>
+    </>
+  );
 };
 
 export default TestLogin;

@@ -4,14 +4,11 @@ import { useState } from "react";
 
 export function useAuthService(): AuthServiceProps {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(() => {
-        const isLoggedIn = localStorage.getItem("isLoggedIn")
-        if (isLoggedIn !== null) {
-            return Boolean(isLoggedIn)
-        } else {
-            return false
-        }
-    });
+    const getInitialLoggedInValue = () => {
+        const loggedIn = localStorage.getItem("isLoggedIn");
+        return loggedIn !== null && loggedIn == "true"
+    }
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>((getInitialLoggedInValue));
 
     const getUserIdFromToken = (access: string) => {
         const token = access
@@ -73,5 +70,13 @@ export function useAuthService(): AuthServiceProps {
         }
     }
 
-    return { login, isLoggedIn }
+    const logout = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("username");
+        localStorage.setItem("isLoggedIn", "false");
+        setIsLoggedIn(false)
+    }
+    return { login, isLoggedIn, logout }
 }
