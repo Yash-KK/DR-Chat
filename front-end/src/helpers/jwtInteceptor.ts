@@ -16,10 +16,33 @@ const useAxioxWithInterceptor = (): AxiosInstance => {
         },
 
         async (error) => {
-            // const originalRequest = error.config;
-            if (error.response.status === 403) {    // UnAuthorized
-                const goRoot = navigate("/testing");
-                return goRoot
+            const originalRequest = error.config;
+            if (error.response?.status === 401 || 403) {    // UnAuthorized
+                const refreshToken = localStorage.getItem("refresh_token");
+                if (refreshToken) {
+                    try {
+                        const refreshResponse = await axios.post(
+                            "http://127.0.0.1:8000/api/token/refresh/",
+                            {
+                                refresh: refreshToken
+                            }
+                        )
+                        const newAccessToken = refreshResponse.data.access
+                        localStorage.setItem('access_token', newAccessToken);
+                        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                        return jwtAxios(originalRequest)
+                    } catch (error) {
+                        navigate("/login");
+                        throw error
+                    }
+                }
+                else {
+                    navigate("/login")
+                }
+
+            }
+            else {
+                throw error
             }
         }
     )
