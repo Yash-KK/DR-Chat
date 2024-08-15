@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -45,7 +46,7 @@ INSTALLED_APPS = [
     "server",
     "corsheaders",
     "rest_framework",
-    "webchat"
+    "webchat",
 ]
 
 MIDDLEWARE = [
@@ -138,8 +139,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         # "rest_framework.authentication.SessionAuthentication",
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ]
 }
 
@@ -153,3 +153,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
